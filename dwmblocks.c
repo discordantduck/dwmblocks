@@ -7,19 +7,18 @@
 #include<X11/Xlib.h>
 #endif
 #ifdef __OpenBSD__
-#define SIGPLUS	SIGUSR1+1
-#define SIGMINUS SIGUSR1-1
+#define SIGPLUS			SIGUSR1+1
+#define SIGMINUS		SIGUSR1-1
 #else
-#define SIGPLUS	SIGRTMIN
-#define SIGMINUS SIGRTMIN
+#define SIGPLUS			SIGRTMIN
+#define SIGMINUS		SIGRTMIN
 #endif
-#define LENGTH(X)(sizeof(X) / sizeof(X[0]))
-#define CMDLENGTH 50
-#define MIN(a, b)((a < b) ? a : b)
+#define LENGTH(X)               (sizeof(X) / sizeof (X[0]))
+#define CMDLENGTH		50
+#define MIN( a, b ) ( ( a < b) ? a : b )
 #define STATUSLENGTH (LENGTH(blocks) * CMDLENGTH + 1)
 
-typedef struct
-{
+typedef struct {
 	char* icon;
 	char* command;
 	unsigned int interval;
@@ -66,14 +65,12 @@ void getcmd(const Block *block, char *output)
 	int i = strlen(block->icon);
 	fgets(output+i, CMDLENGTH-i-delimLen, cmdf);
 	i = strlen(output);
-	if (i == 0)
-	{
+	if (i == 0) {
 		//return if block and command output are both empty
 		pclose(cmdf);
 		return;
 	}
-	if (delim[0] != '\0')
-	{
+	if (delim[0] != '\0') {
 		//only chop off newline if one is present at the end
 		i = output[i-1] == '\n' ? i-1 : i;
 		strncpy(output+i, delim, delimLen); 
@@ -86,8 +83,7 @@ void getcmd(const Block *block, char *output)
 void getcmds(int time)
 {
 	const Block* current;
-	for (unsigned int i = 0; i < LENGTH(blocks); i++)
-	{
+	for (unsigned int i = 0; i < LENGTH(blocks); i++) {
 		current = blocks + i;
 		if ((current->interval != 0 && time % current->interval == 0) || time == -1)
 			getcmd(current,statusbar[i]);
@@ -97,8 +93,7 @@ void getcmds(int time)
 void getsigcmds(unsigned int signal)
 {
 	const Block *current;
-	for (unsigned int i = 0; i < LENGTH(blocks); i++)
-	{
+	for (unsigned int i = 0; i < LENGTH(blocks); i++) {
 		current = blocks + i;
 		if (current->signal == signal)
 			getcmd(current,statusbar[i]);
@@ -113,8 +108,7 @@ void setupsignals()
         signal(i, dummysighandler);
 #endif
 
-	for (unsigned int i = 0; i < LENGTH(blocks); i++)
-	{
+	for (unsigned int i = 0; i < LENGTH(blocks); i++) {
 		if (blocks[i].signal > 0)
 			signal(SIGMINUS+blocks[i].signal, sighandler);
 	}
@@ -143,8 +137,7 @@ void setroot()
 int setupX()
 {
 	dpy = XOpenDisplay(NULL);
-	if (!dpy)
-	{
+	if (!dpy) {
 		fprintf(stderr, "dwmblocks: Failed to open display\n");
 		return 0;
 	}
@@ -162,13 +155,13 @@ void pstdout()
 	fflush(stdout);
 }
 
+
 void statusloop()
 {
 	setupsignals();
 	int i = 0;
 	getcmds(-1);
-	while (1)
-	{
+	while (1) {
 		getcmds(i++);
 		writestatus();
 		if (!statusContinue)
@@ -198,8 +191,7 @@ void termhandler()
 
 int main(int argc, char** argv)
 {
-	for (int i = 0; i < argc; i++) //Handle command line arguments
-	{
+	for (int i = 0; i < argc; i++) {//Handle command line arguments
 		if (!strcmp("-d",argv[i]))
 			strncpy(delim, argv[++i], delimLen);
 		else if (!strcmp("-p",argv[i]))
