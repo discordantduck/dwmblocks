@@ -4,7 +4,7 @@ static const Block blocks[] =
 /*  ICON        COMMAND                                 UPDATE INTERVAL UPDATE SIGNAL */
     {" WIFI[",  "./dwmblocks/scripts/network",          60,             0},
     {" VOL[",   "./dwmblocks/scripts/outputVolume",     0,              10},
-    {" MIC[",   "./dwmblocks/scripts/inputVolume",      0,              10},
+    {" MIC[",   "./dwmblocks/scripts/inputVolume",      0,              11},
     {" ",       "./dwmblocks/scripts/date",             60,             0},
 };
 
