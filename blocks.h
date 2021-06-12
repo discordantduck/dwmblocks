@@ -3,7 +3,7 @@ static const Block blocks[] =
 {
 /*  ICON   COMMAND                                          UPDATE INTERVAL  UPDATE SIGNAL */
     {"",   "~/Desktop/dwmblocks/scripts/network.sh",        5,               0},
-    {" ",   "~/Desktop/dwmblocks/scripts/battery.sh",        5,               0},
+    //{" ",   "~/Desktop/dwmblocks/scripts/battery.sh",      5,               0},
     {" ", "~/Desktop/dwmblocks/scripts/outputVolume.sh",   0,               10},
     {" ", "~/Desktop/dwmblocks/scripts/inputVolume.sh",    0,               11},
     {"",   "~/Desktop/dwmblocks/scripts/date.sh",           60,              0},
